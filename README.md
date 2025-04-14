@@ -1,4 +1,4 @@
-Coursework for SLAV 2500 - Bits & Bytes: Exploring Vampires in Video Games  
+Final project for SLAV 2500 - Bits & Bytes: Exploring Vampires in Video Games  
 
 Vampire Assets: https://free-game-assets.itch.io/free-vampire-pixel-art-sprite-sheets  
 Swamp Assets: https://free-game-assets.itch.io/free-swamp-2d-tileset-pixel-art
