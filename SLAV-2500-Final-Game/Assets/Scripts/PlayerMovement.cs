@@ -1,75 +1,79 @@
+// PlayerMovement.cs (ground‑check via OverlapCircle for dynamic 2D platformer)
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    [Header("Player Movement")]
-    public float jumpForce = 5f;
+    [Header("Movement Settings")]
     public float speed = 5f;
-    [SerializeField] private bool isGrounded = true;
+    public float jumpForce = 5f;
 
-    [Header("Player Components")]
+    [Header("Ground Check Settings")]
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
 
-    [SerializeField] 
-    private Animator playerAnimator;
-
-    [SerializeField] 
+    private Rigidbody2D rb;
+    private Animator anim;
     private SpriteRenderer spriteRenderer;
     private float horizontalInput;
     private bool isFacingRight = true;
+    private bool isGrounded;
 
-    private Rigidbody2D rigidBody;
-    void Start()
+    private void Awake()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        // 1. Read input
         horizontalInput = Input.GetAxis("Horizontal");
-        
+
+        // 2. Flip sprite
         FlipSprite();
 
+        // 3. Ground check
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // 4. Jump
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rigidBody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            isGrounded = false;
-            playerAnimator.SetBool("isJumping", !isGrounded);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+
+        // 5. Update animator
+        anim.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isJumping", !isGrounded);
     }
 
     private void FixedUpdate()
     {
-        rigidBody.velocity = new Vector2(horizontalInput * speed, rigidBody.velocity.y);
-        playerAnimator.SetFloat("xVelocity", Mathf.Abs(rigidBody.velocity.x));
-        playerAnimator.SetFloat("yVelocity", rigidBody.velocity.y);
+        // Move horizontally
+        rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
     }
 
     private void FlipSprite()
     {
-        if (horizontalInput != 0)
+        if (horizontalInput > 0 && !isFacingRight || horizontalInput < 0 && isFacingRight)
         {
-            bool shouldFaceRight = horizontalInput > 0f;
-            if (shouldFaceRight != isFacingRight)
-            {
-                isFacingRight = shouldFaceRight;
-                spriteRenderer.flipX = !isFacingRight;
-            }
+            isFacingRight = !isFacingRight;
+            spriteRenderer.flipX = !isFacingRight;
         }
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
     {
-        if (collision.gameObject.CompareTag("Terrain"))
+        if (groundCheck != null)
         {
-            isGrounded = true;
-            playerAnimator.SetBool("isJumping", !isGrounded);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
-
+#endif
 }
