@@ -5,16 +5,8 @@ public class CoverDetector2D : MonoBehaviour
     [Tooltip("Which layers count as blocking cover")]
     public LayerMask coverLayer;
 
-    private Transform player;
+    public Transform player;
     public PlayerMovement player_movement;
-
-    void Start()
-    {
-        // If this script lives on the Light object (child of Player), grab the parent
-        player = transform.parent;
-        if (player == null)
-            Debug.LogWarning("CoverDetector2D: couldn't find parent as player!");
-    }
 
     void Update()
     {
