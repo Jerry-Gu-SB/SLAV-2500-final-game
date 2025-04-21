@@ -4469,6 +4469,7 @@ GameObject:
   - component: {fileID: 619394802}
   - component: {fileID: 619394801}
   - component: {fileID: 619394803}
+  - component: {fileID: 619394804}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -4506,7 +4507,7 @@ MonoBehaviour:
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
   m_ShadowIntensityEnabled: 0
-  m_ShadowIntensity: 0.75
+  m_ShadowIntensity: 0.606
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
@@ -4557,6 +4558,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   player_movement: {fileID: 890050772}
+--- !u!114 &619394804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619394800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6deb875903d34a62a571e5dc4b8ff27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayDuration: 30
+  nightDuration: 10
+  dayColor: {r: 1, g: 1, b: 1, a: 1}
+  nightColor: {r: 0.2, g: 0.2, b: 0.6, a: 1}
 --- !u!1 &645295562
 GameObject:
   m_ObjectHideFlags: 0
