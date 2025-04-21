@@ -39,23 +39,30 @@ public class PlayerMovement : MonoBehaviour
     // call this to play death anim and stop movement
     public void Die()
     {
-        if (deathHandled) 
-            return;
-
+        if (deathHandled) return;
         deathHandled = true;
         isDead = true;
 
-        // fire the animator trigger
+        // 1) fire the trigger
+        anim.SetBool("isJumping", false);
         anim.SetTrigger("isDead");
 
-        // stop momentum
+        // 2) immediate physics shutdown
         rb.velocity = Vector2.zero;
 
-        // OPTION A: reload scene after the clip finishes
-        StartCoroutine(ReloadAfterDeath(anim.GetCurrentAnimatorStateInfo(0).length));
+        // 3) figure out how long our death animation really is
+        float deathClipLength = 0f;
+        foreach (var clip in anim.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == "Player_Dead")  
+            {
+                deathClipLength = clip.length;
+                break;
+            }
+        }
 
-        // OPTION B: OR simply respawn in place after the clip
-        // StartCoroutine(RespawnAfterDeath(anim.GetCurrentAnimatorStateInfo(0).length));
+        // 4) reload *after* the death animation has time to play
+        StartCoroutine(ReloadAfterDeath(deathClipLength));
     }
 
     // private void Awake()
@@ -98,9 +105,11 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ReloadAfterDeath(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        // if for some reason we couldn't find the clip, default to 1s
+        yield return new WaitForSeconds(delay > 0 ? delay : 1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
 
     // private IEnumerator RespawnAfterDeath(float delay)
     // {
