@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,16 +21,53 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private bool isFacingRight = true;
     private bool isGrounded;
+    public bool isDead = false;
+    private bool deathHandled = false;
+
+    private Vector3 spawnPoint;
 
     private void Awake()
     {
+        // cache your start position
+        spawnPoint = transform.position;
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    // call this to play death anim and stop movement
+    public void Die()
+    {
+        if (deathHandled) 
+            return;
+
+        deathHandled = true;
+        isDead = true;
+
+        // fire the animator trigger
+        anim.SetTrigger("isDead");
+
+        // stop momentum
+        rb.velocity = Vector2.zero;
+
+        // OPTION A: reload scene after the clip finishes
+        StartCoroutine(ReloadAfterDeath(anim.GetCurrentAnimatorStateInfo(0).length));
+
+        // OPTION B: OR simply respawn in place after the clip
+        // StartCoroutine(RespawnAfterDeath(anim.GetCurrentAnimatorStateInfo(0).length));
+    }
+
+    // private void Awake()
+    // {
+    //     rb = GetComponent<Rigidbody2D>();
+    //     anim = GetComponent<Animator>();
+    //     spriteRenderer = GetComponent<SpriteRenderer>();
+    // }
+
     private void Update()
     {
+        if (isDead) return;
         // 1. Read input
         horizontalInput = Input.GetAxis("Horizontal");
 
@@ -53,9 +91,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
         // Move horizontally
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
     }
+
+    private IEnumerator ReloadAfterDeath(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // private IEnumerator RespawnAfterDeath(float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
+    //     transform.position = spawnPoint;
+    //     deathHandled = false;
+    //     isDead = false;
+    //     anim.ResetTrigger("Death");
+    //     this.enabled = true;    // re‑enable movement
+    // }
 
     private void FlipSprite()
     {

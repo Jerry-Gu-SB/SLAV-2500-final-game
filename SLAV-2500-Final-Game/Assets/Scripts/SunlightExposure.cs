@@ -6,6 +6,7 @@ public class CoverDetector2D : MonoBehaviour
     public LayerMask coverLayer;
 
     private Transform player;
+    public PlayerMovement player_movement;
 
     void Start()
     {
@@ -29,7 +30,8 @@ public class CoverDetector2D : MonoBehaviour
         // 3) If nothing was hit, the player is exposed
         if (hit.collider == null)
         {
-            Debug.Log("⚠️ Player is not under cover—exposed to sunlight!");
+            // Debug.Log(playerObj.isDead);
+            player_movement.Die();
         }
 
         // (Optional) Draw the ray in the Scene view: green if blocked, red if exposed
