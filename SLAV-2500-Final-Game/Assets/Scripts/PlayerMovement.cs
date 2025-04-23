@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float speed = 5f;
-    public float jumpForce = 5f;
+    public float speed = 10f;
+    public float jumpForce = 10f;
 
     [Header("Ground Check Settings")]
     public Transform groundCheck;

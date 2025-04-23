@@ -905,7 +905,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &458003578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10654,7 +10654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a129ff3017fd429660f87040388ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartScene: {fileID: 1781247894}
+  playerMovement: {fileID: 0}
 --- !u!50 &783098513
 Rigidbody2D:
   serializedVersion: 4
@@ -10772,8 +10772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c084d574f4a1b3944b897bf41c6bf3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  jumpForce: 7
+  speed: 10
+  jumpForce: 10
   groundCheck: {fileID: 501650224}
   groundCheckRadius: 0.2
   groundLayer:
@@ -10795,7 +10795,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 7425dfe4e99b4425d9f7330bd03c4214, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -11783,7 +11783,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &1641022900
 MonoBehaviour:
   m_ObjectHideFlags: 0
