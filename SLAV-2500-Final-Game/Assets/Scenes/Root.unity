@@ -13625,8 +13625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6deb875903d34a62a571e5dc4b8ff27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayDuration: 30
-  nightDuration: 10
+  dayDuration: 12
+  nightDuration: 5
   dayColor: {r: 1, g: 1, b: 1, a: 1}
   nightColor: {r: 0.2, g: 0.2, b: 0.6, a: 1}
 --- !u!1 &645295562
