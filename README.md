@@ -7,11 +7,11 @@ Jerry Gu (ncq9fn)
 Jennifer Liu (ana2ag)  
 Jaeson Martin (xac7gz)  
 
-Art Assets:  
+**Art Assets:**  
 Vampire Assets: https://free-game-assets.itch.io/free-vampire-pixel-art-sprite-sheets  
 Swamp Assets: https://free-game-assets.itch.io/free-swamp-2d-tileset-pixel-art  
 
-Sound Effects:  
+**Sound Effects:**  
 Jump SFX: https://www.youtube.com/watch?v=ROdYDHNww-M  
 Walking SFX: https://www.youtube.com/watch?v=uzOuZVy1nmg  
 Death SFX: https://www.youtube.com/watch?v=kLvGB3Ol2p4  
