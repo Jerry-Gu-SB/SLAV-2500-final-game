@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,17 +20,21 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private SpriteRenderer spriteRenderer;
     private float horizontalInput;
-    private bool isFacingRight = true;
+    private bool isFacingRight = true; 
+    
+    [SerializeField]
     private bool isGrounded;
+    
     public bool isDead = false;
     private bool deathHandled = false;
 
     private Vector3 spawnPoint;
-    private AudioSource aud;
+    public AudioSource deathAudioSource;
+    public AudioSource walkingAudioSource;
+    public AudioSource jumpingAudioSource;
 
     private void Awake()
     {
-        aud = GetComponent<AudioSource>();
         // cache your start position
         spawnPoint = transform.position;
 
@@ -43,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (deathHandled) return;
         deathHandled = true;
-        aud.Play();
+        walkingAudioSource.Stop();
+        deathAudioSource.Play();
         isDead = true;
 
 
@@ -68,33 +74,41 @@ public class PlayerMovement : MonoBehaviour
         // 4) reload *after* the death animation has time to play
         StartCoroutine(ReloadAfterDeath(deathClipLength));
     }
-
-    // private void Awake()
-    // {
-    //     rb = GetComponent<Rigidbody2D>();
-    //     anim = GetComponent<Animator>();
-    //     spriteRenderer = GetComponent<SpriteRenderer>();
-    // }
-
+    
     private void Update()
     {
         if (isDead) return;
-        // 1. Read input
         horizontalInput = Input.GetAxis("Horizontal");
 
-        // 2. Flip sprite
         FlipSprite();
 
-        // 3. Ground check
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        // 4. Jump
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            if (!jumpingAudioSource.isPlaying)
+            {
+                jumpingAudioSource.Play();
+            }
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+        
+        if (Mathf.Abs(rb.velocity.x) > 0.1f && isGrounded)
+        {
+            if (!walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Stop();
+            }
+        }
 
-        // 5. Update animator
+
         anim.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isJumping", !isGrounded);
