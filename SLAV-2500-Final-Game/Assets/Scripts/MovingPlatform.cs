@@ -8,11 +8,12 @@ public class MovingPlatform : MonoBehaviour
     public Transform platform;
     int goalPoints = 0;
     public float moveSpeed = 2;
+    private Vector3 spawnPoint;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        spawnPoint = platform.position;
     }
 
     // Update is called once per frame

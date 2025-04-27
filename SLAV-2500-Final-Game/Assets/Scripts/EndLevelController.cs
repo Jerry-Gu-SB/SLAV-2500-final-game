@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EndLevelController : MonoBehaviour
 {
@@ -11,8 +12,7 @@ public class EndLevelController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            endLevelButton.gameObject.SetActive(true);
-            Debug.Log("Player has reached the end level trigger.");
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
