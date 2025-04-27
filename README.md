@@ -1,6 +1,6 @@
 Final project for SLAV 2500 - Bits & Bytes: Exploring Vampires in Video Games  
 
-
+Play on itch.io - https://jerrygu.itch.io/sunlight-survivors  
 
 Game by:  
 Jerry Gu (ncq9fn)  
