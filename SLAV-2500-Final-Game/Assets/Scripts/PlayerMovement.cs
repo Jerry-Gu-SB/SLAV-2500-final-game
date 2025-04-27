@@ -25,9 +25,11 @@ public class PlayerMovement : MonoBehaviour
     private bool deathHandled = false;
 
     private Vector3 spawnPoint;
+    private AudioSource aud;
 
     private void Awake()
     {
+        aud = GetComponent<AudioSource>();
         // cache your start position
         spawnPoint = transform.position;
 
@@ -41,7 +43,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (deathHandled) return;
         deathHandled = true;
+        aud.Play();
         isDead = true;
+
 
         // 1) fire the trigger
         anim.SetBool("isJumping", false);
